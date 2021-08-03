@@ -1,0 +1,31 @@
+version: "3"
+services:
+  db:
+    image: mysql:8.0
+    container_name: database
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: meshikoko
+      MYSQL_USER: meshi
+      MYSQL_PASSWORD: password
+      TZ: 'Asia/Tokyo'
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - 3306:3306
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api
+    tty: true
+    stdin_open: true
+    command: "go run main.go"
+    ports:
+      - "3000:8080"
+    volumes:
+      - ./src:/usr/src
+    depends_on:
+      - db
