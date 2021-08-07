@@ -1,0 +1,6 @@
+server:
+  version: "v1"
+  port: "8080"
+db:
+  provider: "mysql"
+  url: "meshi:3ySQEx+y3T%@tcp(127.0.0.1:3306)/meshikoko?charset=utf8mb4&parseTime=True&loc=Local"
